@@ -17,7 +17,9 @@ class MorseCode {
   Boolean sent = false;           // true when sent command has been sent
   Boolean done = false;           // true when detection sequence is done
 
-  String rawcharacter[] = {"null", "null", "null", "null"}; // morse code is 4 segements
+    String rawcharacter[] = {
+    "null", "null", "null", "null"
+  }; // morse code is 4 segements
 
   int pos = 0;            // position in the chracter string
 
@@ -29,13 +31,13 @@ class MorseCode {
 
   boolean detectMessage() {
 
-  	color messagePixel = cam.pixels[155200];  // pixel near the center of the screen to check brightness
+    color messagePixel = cam.pixels[155200];  // pixel near the center of the screen to check brightness
     float messagePixelDistance = dist(0, 0, 255, hue(messagePixel), saturation(messagePixel), brightness(messagePixel));
 
-    if (messagePixelDistance < 30){     // if the pixel gets really bright, there is a message being sent!
+    if (messagePixelDistance < 30) {     // if the pixel gets really bright, there is a message being sent!
       messageDetect = true;             // tells function to check for message
       navigation.drawMessageBox(true);
-            navigation.drawProgress(true);
+      navigation.drawProgress(true);
     }
     else {
       messageDetect = false;
@@ -51,17 +53,17 @@ class MorseCode {
       decode = true;
     }
 
-    if (messageDetect == false && decode == true){   // if we've seen the end of the flash & we are detecting a message,
+    if (messageDetect == false && decode == true) {   // if we've seen the end of the flash & we are detecting a message,
       end = millis();                                // figure out how long the flash was 
       // println(end);
       l = end - start;
-    
+
       if (l > 1 && l < 400) {                        // between 1 and 400 miliseconds it must be a dot
         rawcharacter[pos] = "dot";
         pos++;                                       // move forward in the rawCharacter array
         messageFound = true;
         navigation.messageProgress = navigation.messageProgress + " . ";
-       }
+      }
       if (l > 401 && l < 800) {                      // between 401 and 800 milliseconds it must be a dash
         rawcharacter[pos] = "dash";
         pos++;                                       // move forward in the rawCharacter array
@@ -70,9 +72,9 @@ class MorseCode {
       }
       decode = false;                                // got ya! ready for the next one
       println(rawcharacter);
-     }
+    }
 
-    if (done == true && interpretDone == true){      // clear everything out after a message has been found
+    if (done == true && interpretDone == true) {      // clear everything out after a message has been found
       timer = 0;
       for (int i = 0; i < 4; i++) {
         rawcharacter[i] = "null";
@@ -93,17 +95,16 @@ class MorseCode {
       return done = true;
     }
     else {
-    	return false;                                 // no message to be found
+      return false;                                 // no message to be found
     }
-   
   }
 
-    boolean detectSpace() { // same logic as above, detects the desire to add a space
+  boolean detectSpace() { // same logic as above, detects the desire to add a space
 
-    color spacePixel = cam.pixels[1940]; // pixel in the upper right corner of the frame
+      color spacePixel = cam.pixels[1940]; // pixel in the upper right corner of the frame
     float spacePixelDistance = dist(0, 0, 255, hue(spacePixel), saturation(spacePixel), brightness(spacePixel));
 
-     if (spacePixelDistance < 10){
+    if (spacePixelDistance < 10) {
       spaceDetect = true;                 
       navigation.drawSpaceBox(true);
       nTimer = millis();
@@ -113,7 +114,7 @@ class MorseCode {
       navigation.drawSpaceBox(false);
     }
 
-    if (spaceDetect == true && spaceAdded == false){
+    if (spaceDetect == true && spaceAdded == false) {
       spaceAdded = true;
       return true;
     }
@@ -125,7 +126,6 @@ class MorseCode {
     else {
       return false;
     }
-
   }
 
   boolean detectClear() { // same logic as above, detects the desire to clear the message
@@ -133,7 +133,7 @@ class MorseCode {
     color clearPixel = cam.pixels[306539];
     float clearPixelDistance = dist(0, 0, 255, hue(clearPixel), saturation(clearPixel), brightness(clearPixel));
 
-     if (clearPixelDistance < 10){
+    if (clearPixelDistance < 10) {
       clearDetect = true;                 
       navigation.drawClearBox(true);
       cTimer = millis();
@@ -144,7 +144,7 @@ class MorseCode {
       navigation.drawClearBox(false);
     }
 
-    if (clearDetect == true && clearStarted == false){
+    if (clearDetect == true && clearStarted == false) {
       clearStarted = true;
       return true;
     }
@@ -156,7 +156,6 @@ class MorseCode {
     else {
       return false;
     }
-
   }
 
   boolean detectSend() { // same logic as above, detects the desire to send the message
@@ -165,21 +164,20 @@ class MorseCode {
     float sendPixelDistance = dist(0, 0, 255, hue(sendPixel), saturation(sendPixel), brightness(sendPixel));
 
 
-     if (sendPixelDistance < 5){
+    if (sendPixelDistance < 5) {
       sTimer = millis(); 
       sendDetect = true;  
       navigation.drawSendBox(true);
-
     }
     else {
       sendDetect = false;
       navigation.drawSendBox(false);
     }
 
-    if (sendDetect == true && sent == false){
+    if (sendDetect == true && sent == false) {
 
-        sent = true;
-        return true;  
+      sent = true;
+      return true;
     }
     else if ((sTimer + 5000) < millis() && sent == true) {
       sent = false;
@@ -188,27 +186,25 @@ class MorseCode {
     }
     else {
       return false;
-
     }
-
   }
 
 
-  String interpret(){
-    for (int i = 0; i < 4; i++){                    // put the raw "dash" or "dot" into our array for sending to the lights
-      if (rawcharacter[i] != "null"){
+  String interpret() {
+    for (int i = 0; i < 4; i++) {                    // put the raw "dash" or "dot" into our array for sending to the lights
+      if (rawcharacter[i] != "null") {
         messagechar[index] = rawcharacter[i];
         index++;
       }
       else {
         break;
-       }
       }
-      messagechar[index] = "wait";
-      index++;
+    }
+    messagechar[index] = "wait";
+    index++;
 
     // decode to human readable
-     
+
     if (rawcharacter[0] == "dot" && rawcharacter[1] == "dash" && rawcharacter[2] == "null" && rawcharacter[3] == "null") {
       characterReturn =  "A";
     }
@@ -249,7 +245,7 @@ class MorseCode {
       characterReturn =  "M";
     }
     if (rawcharacter[0] == "dash" && rawcharacter[1] == "dot" && rawcharacter[2] == "null" && rawcharacter[3] == "null") {
-     characterReturn =  "N";
+      characterReturn =  "N";
     }
     if (rawcharacter[0] == "dash" && rawcharacter[1] == "dash" && rawcharacter[2] == "dash" && rawcharacter[3] == "null") {
       characterReturn =  "O";
@@ -289,9 +285,6 @@ class MorseCode {
     }
     interpretDone = true;
     return characterReturn;
-   }
-
-
-
-
   }
+}
+

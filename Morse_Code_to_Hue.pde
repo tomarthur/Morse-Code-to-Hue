@@ -1,15 +1,15 @@
 /* 
-  Tom Arthur 
-  tom.arthur@nyu.edu
-
-  ICM Final - Fall 2012
-  Professor Matt Parker
-
-
-  Attribution: 
-  Morse Code logic based on Mirte Morse Code Encoder (http://www.openprocessing.org/sketch/79076)
-  Philips HUE API Hacking based on Ross McKillop (http://rsmck.co.uk/hue)
-*/
+ Tom Arthur 
+ tom.arthur@nyu.edu
+ 
+ ICM Final - Fall 2012
+ Professor Matt Parker
+ 
+ 
+ Attribution: 
+ Morse Code logic based on Mirte Morse Code Encoder (http://www.openprocessing.org/sketch/79076)
+ Philips HUE API Hacking based on Ross McKillop (http://rsmck.co.uk/hue)
+ */
 
 import processing.video.*;
 //import org.json.*;
@@ -58,11 +58,11 @@ void setup () {
   // check state of lights, turn off if already on
   light1on = firstLight.on();
 
-    if (light1on == true){
-        firstLight.send(turnOff);
-        light1on = firstLight.on();
-        println("light 1 " + light1on);
-    }
+  if (light1on == true) {
+    firstLight.send(turnOff);
+    light1on = firstLight.on();
+    println("light 1 " + light1on);
+  }
 
   cam = new Capture(this, 640, 480);
   cam.start();
@@ -92,10 +92,6 @@ void setup () {
   flashlightIconB.resize(100, 0);
 
   sending = false;
-
-
-
-
 }
 
 void draw () {
@@ -107,14 +103,14 @@ void draw () {
       for (int y = 0; y < cam.height; y++) {
         int dIndex = x + y * cam.width;                
         int cIndex = (width - x - 1) + y * cam.width;
-        displayImg.pixels[dIndex] = cam.pixels[cIndex];     //reverse like a mirror 
+        displayImg.pixels[dIndex] = cam.pixels[cIndex];     //reverse like a mirror
       }
     }
 
     displayImg.updatePixels();
     image(displayImg, 0, 0);                                // display camera image
 
-    if (mCode.detectMessage() == true){                     // if a character was detected, add it to the message on screen
+    if (mCode.detectMessage() == true) {                     // if a character was detected, add it to the message on screen
       String charFrom = mCode.interpret();   
       textMessage = textMessage + charFrom;                 // add found character to string
     }
@@ -127,17 +123,17 @@ void draw () {
     if (mCode.detectClear() == true)                        // backspace/clear if detected (major error location)
     {
       if (textMessage.length() > 0) {
-      textMessage = textMessage.substring(0, textMessage.length()-1);
-        if(mCode.index != 0){
+        textMessage = textMessage.substring(0, textMessage.length()-1);
+        if (mCode.index != 0) {
           mCode.index--;
-          while(mCode.messagechar[mCode.index] != "null") {
+          while (mCode.messagechar[mCode.index] != "null") {
             // println(mCode.index);
             mCode.messagechar[mCode.index] = "null";
-            if (mCode.index != 0){
+            if (mCode.index != 0) {
               mCode.index--;
             }
-         }
-       }
+          }
+        }
       }
     }
 
@@ -147,68 +143,65 @@ void draw () {
       // figure out the pause between letters (maybe after the letter codes like 'wait' & double wait for spaces)
       // playback the letters in a for loop, sending commands as I go
       // consider just hooking up an LED without the internets
-      if (sending == false){
-      thread("sendIt");
-    }
+      if (sending == false) {
+        thread("sendIt");
+      }
     }
 
     fill(255);
     textFont(fontM, 32);
     text(textMessage, 30, 30);                   // draw morse code message on screen
-   }
-
-
+  }
 }
 
 void sendIt () {    // Run as a thread so the sketch doesn't appear to freeze.
-int counter = 0;
-sending = true;
-  while (counter < 4){  // Notify that a message is being sent with red flashes
-  firstLight.send(redAlertOn);
-  delay(700);
-  firstLight.send(redAlertOff);
-  delay(500);
-  counter++;
+  int counter = 0;
+  sending = true;
+  while (counter < 4) {  // Notify that a message is being sent with red flashes
+    firstLight.send(redAlertOn);
+    delay(700);
+    firstLight.send(redAlertOff);
+    delay(500);
+    counter++;
   }
- delay(100);
- firstLight.send(turnOff);
- delay(2000);
+  delay(100);
+  firstLight.send(turnOff);
+  delay(2000);
 
-  for (int i = 0; i < mCode.messagechar.length; i++){     // for the length of the message character array, send dot or dash messages to philips hue lights,
-        String current = mCode.messagechar[i];            //  timing has to be held in processing, there  is not currently a way to send the entire sequence
-        println(current);
-        if (current == "dot"){
-          firstLight.send(morseOn);
-          delay(500);
-          firstLight.send(morseOff);
-          delay(1500);
-        }
-        if (current == "dash"){
-          firstLight.send(morseOn);
-          delay(1000);
-          firstLight.send(morseOff);
-          delay(1500);
+  for (int i = 0; i < mCode.messagechar.length; i++) {     // for the length of the message character array, send dot or dash messages to philips hue lights,
+    String current = mCode.messagechar[i];            //  timing has to be held in processing, there  is not currently a way to send the entire sequence
+    println(current);
+    if (current == "dot") {
+      firstLight.send(morseOn);
+      delay(500);
+      firstLight.send(morseOff);
+      delay(1500);
+    }
+    if (current == "dash") {
+      firstLight.send(morseOn);
+      delay(1000);
+      firstLight.send(morseOff);
+      delay(1500);
+    }
+    if (current == "wait") {
+      delay(2500);
+    }
+    if (current == "null") {
+      break;
+    }
+  }
 
-        }
-        if (current == "wait"){
-          delay(2500);
-        }
-        if (current == "null"){
-          break;
-        }
-      }
+  for (int i = 0; i < mCode.messagechar.length; i++)        // clear out the character array
+  {
+    mCode.messagechar[i] = "null";
+  }
 
-for (int i = 0; i < mCode.messagechar.length; i++)        // clear out the character array
-{
-  mCode.messagechar[i] = "null";
+  mCode.index = 0;
+
+  for (int i = textMessage.length(); i > 0; i--) {          // clear out the message string
+    textMessage = textMessage.substring(0, textMessage.length()-1);
+  }
+
+  sending = false;
 }
 
-mCode.index = 0;
-
-for (int i = textMessage.length(); i > 0; i--) {          // clear out the message string
-  textMessage = textMessage.substring(0, textMessage.length()-1);
-}
-
-sending = false;
-
-}

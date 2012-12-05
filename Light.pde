@@ -61,8 +61,5 @@ class Light {
     }
     return status;
   }
-
-  
-  }
-    
+}
 
