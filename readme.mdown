@@ -1,5 +1,6 @@
-# Morse Code to Hue
-## Introduction to Computational Media Fall 2012
+# Morse Code to Hue 
+## Processing communicating with Philips Hue Connected Lights
+### Introduction to Computational Media Fall 2012
 
 This processing sketch reads morse code from a webcam & flashlight and sends the message over the internet to Philips Hue Connected Bulbs.
 
