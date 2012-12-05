@@ -12,7 +12,7 @@
 */
 
 import processing.video.*;
-import org.json.*;
+//import org.json.*;
 
 Light firstLight;      // first philips HUE light to be controlled by JSON PUT commands
 // Light secondLight;     // first philips HUE light to be controlled by JSON PUT commands
@@ -50,7 +50,7 @@ void setup () {
 
   println("initializing lights...");
 
-  firstLight = new Light("http://bridge_ip/api/apikey/lights/1/state");
+  firstLight = new Light("http://bridge_ip/api/apikey/lights/1/state"); // !! Important note, make sure to adjust the substring length in light.pde
   // secondLight = new Light("http://bridge_ip/api/apikey/lights/2/state");
 
   println("lights initialized.");

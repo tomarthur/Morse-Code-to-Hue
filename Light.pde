@@ -37,7 +37,7 @@ class Light {
 
   boolean on() {                                                        // check if light is on
     boolean status = false;
-    String response = loadStrings( l.substring(0, 61) )[0];
+    String response = loadStrings( l.substring(0, xx) )[0];             // !! Edit the substring number depending on your IP length (we want to remove /state)
     //    println(response);
     if ( response != null ) {
       // Initialize the JSONObject for the response
