@@ -1,0 +1,34 @@
+# Morse Code to Hue
+## Introduction to Computational Media Fall 2012
+
+This processing sketch reads morse code from a webcam & flashlight and sends the message over the internet to Philips Hue Connected Bulbs.
+
+[See it in action on vimeo (to be added)](http://vimeo.com/tomarthur/)
+
+### Status
+
+Dec 5 2012 
+
+This code & guide reflects the project as of the time it was presented for my ICM final at NYU's Interactive Telecommunications Program.
+
+
+### Requirements
+ - Webcam
+ - Philips Hue Connected Lights
+ - [an API key for your bridge](http://rsmck.co.uk/hue)
+
+
+### Known Issues
+  - PUT requests are a big mess (processing doens't like)
+  - Messages can get out of sync with heavy network load (long distance, time machine backup, etc.)
+  - JSON parsing leaves something to be desired
+
+### Next Steps
+  - Build a Processing library for Philips Hue Connected Lights
+
+
+ ### Attribution 
+ [Ross McKillop 'Hack the Hue'](http://rsmck.co.uk/hue)
+ [Mirte Morse Code Encoder](http://www.openprocessing.org/sketch/79076)
+ [Apache HttpComponents Client](http://www.apache.org/licenses/)
+ [JSON for Java](https://github.com/douglascrockford/JSON-java)
