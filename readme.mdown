@@ -4,7 +4,7 @@
 
 This processing sketch reads morse code from a webcam & flashlight and sends the message over the internet to Philips Hue Connected Bulbs.
 
-[See it in action on vimeo (to be added)](http://vimeo.com/tomarthur/)
+[See it in action on vimeo (to be added)](http://vimeo.com/tomarthur/54923362)
 
 ### Status
 
